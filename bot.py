@@ -1,4 +1,5 @@
 import discord
+import subprocess
 import asyncio
 import logging
 from discord.ext import commands
@@ -18,7 +19,9 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 
 import csv
 
-description = """teksbaht"""
+description = """TeXas"""
+
+help_message = '```TeXas help \n----------------------\n latex: render LaTeX \n solve: solve expressions with SymPy\n\nExamples:\n----------------------\n latex \int_{-\infty}^\infty \\frac{1}{\sqrt{2\pi}} e^{-\\frac{x^2}{2}}\; \\text{d}x\n solve integrate((E**(-x**2/2))/sqrt(2*pi),(x,-oo,oo))```'
 
 inline_bot = discord.Client()
 
@@ -28,9 +31,9 @@ async def on_ready():
     print(inline_bot.user.name)
     print(inline_bot.user.id)
     print('-----')
-    activity = discord.Activity(name='Watching for latex and solve', type=4)
+    activity = discord.Activity(name='for "TeXas help"', type=discord.ActivityType.watching)
     await inline_bot.change_presence(activity=activity)
-    
+
 def PNGify(latex):
     ## read user input (argument) as a latex equation
     le = "$$" + latex + "$$"
@@ -70,6 +73,9 @@ async def on_message(message):
     elif content[:6] == 'solve ':
         # turn math into PNG result
         reply += PNGify(SOLVE(content[6:]))
+    elif content == 'TeXas help':
+        await message.channel.send(help_message)
+        return
     if reply != '':
         await message.channel.send(file=discord.File(reply))
         os.system('rm ' + reply)
