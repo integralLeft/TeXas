@@ -1,6 +1,6 @@
-# TeXas
+# TeXas (OUTDATED)
 
-Discord bot to render LaTeX and solve equations.
+Discord bot to render LaTeX and solve equations. 
 
 ## Dependencies
 
